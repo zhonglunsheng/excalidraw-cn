@@ -100,6 +100,34 @@ export class FileManager {
     }
   };
 
+  saveFiles2 = async ({ files }: { files: any }) => {
+    const addedFiles: Map<FileId, BinaryFileData> = new Map();
+
+    for (const element of files) {
+      addedFiles.set(element.id, element);
+      this.savingFiles.set(element.id, true);
+    }
+
+    try {
+      const { savedFiles, erroredFiles } = await this._saveFiles({
+        addedFiles,
+      });
+
+      for (const [fileId] of savedFiles) {
+        this.savedFiles.set(fileId, true);
+      }
+
+      return {
+        savedFiles,
+        erroredFiles,
+      };
+    } finally {
+      for (const [fileId] of addedFiles) {
+        this.savingFiles.delete(fileId);
+      }
+    }
+  };
+
   getFiles = async (
     ids: FileId[],
   ): Promise<{

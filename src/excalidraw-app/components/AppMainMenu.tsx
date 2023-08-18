@@ -2,7 +2,7 @@ import React from "react";
 // import { PlusPromoIcon } from "../../components/icons";
 import { MainMenu } from "../../packages/excalidraw/index";
 import { LanguageList } from "./LanguageList";
-import { UploadLocalData } from "./LanguageList";
+import { UploadLocalData } from "./UploadCloud";
 
 export const AppMainMenu: React.FC<{
   setCollabDialogShown: (toggle: boolean) => any;
@@ -16,10 +16,10 @@ export const AppMainMenu: React.FC<{
       <MainMenu.DefaultItems.SaveToActiveFile />
       <MainMenu.DefaultItems.Export />
       <MainMenu.DefaultItems.SaveAsImage />
-      {/* <MainMenu.DefaultItems.LiveCollaborationTrigger
+      <MainMenu.DefaultItems.LiveCollaborationTrigger
         isCollaborating={props.isCollaborating}
         onSelect={() => props.setCollabDialogShown(true)}
-      /> */}
+      />
 
       <MainMenu.DefaultItems.Help />
       <MainMenu.DefaultItems.ClearCanvas />

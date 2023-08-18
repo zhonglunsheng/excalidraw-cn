@@ -86,6 +86,9 @@ import { parseLibraryTokensFromUrl, useHandleLibrary } from "../data/library";
 import { AppMainMenu } from "./components/AppMainMenu";
 import { AppWelcomeScreen } from "./components/AppWelcomeScreen";
 import { AppFooter } from "./components/AppFooter";
+import { initExcalidrawFromCloudData } from "./data/CloudData";
+
+console.log("loading");
 
 polyfill();
 
@@ -325,10 +328,24 @@ const ExcalidrawWrapper = () => {
             });
           });
         } else if (isInitialLoad) {
+          initExcalidrawFromCloudData();
+          // 获取远程图片 保存到indexdb
+          const testData = [
+            {
+              mimeType: "image/png",
+              id: "1111111",
+              dataURL:
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAvCAYAAAAfIcGpAAAAAXNSR0IArs4c6QAAATVJREFUWEftl+GphDAQhDcVaAfagVqBsQM70A5sIXakFWgJWoHYgVaQxwRyHMd5ymFyP94GQkA2mcm3u0KE1lqT5yFY1CVxxuuSLjFexnsLAS6kWzAeHcJ4Ge8tBLiQbsHIffqbQlJKaSnlA38QBJSmqducEtHhs8KagYkwDI0ZrEmSmPXbIZqm0dM0PfZv20bzPJ+eZ03AWBzHZuZ5froPAUJK+famEH82c+k0IkMDBuwKKq/pEp/wXhW6EgciZVlSVVUkhmE4fSo+F9onAZBRSlHf94dhSIuzlum6juzc992YiKKI1nV1J2qvitqo69rcHrldlsW9qBWHoO0KZ3hfk4p8Z1lmPnsThRiqF5i9iqKy27b1KzqOIxVF4VfU5FMIFr3yN/0u5n/gtT8Ir336k5axon/cHP3Ruj/G1AAAAABJRU5ErkJggg==",
+              created: 1692371740460,
+              lastRetrieved: 1692371786568,
+            },
+          ];
+          LocalData.fileStorage.saveFiles2({ files: testData });
           if (fileIds.length) {
             LocalData.fileStorage
               .getFiles(fileIds)
               .then(({ loadedFiles, erroredFiles }) => {
+                console.log(JSON.stringify(loadedFiles));
                 if (loadedFiles.length) {
                   excalidrawAPI.addFiles(loadedFiles);
                 }
