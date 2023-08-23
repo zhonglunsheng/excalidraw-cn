@@ -40,8 +40,7 @@ export const getData = async (
 
   if (
     shareType ||
-    (window.location.search &&
-        window.location.search.startsWith("?link="))
+    (window.location.search && window.location.search.startsWith("?link="))
   ) {
     storgePath = window.location.search.slice(6);
     sharePath = true;
@@ -98,7 +97,7 @@ export const getData = async (
     // 上传到远程
     if (backupData) {
       fetchData(JSON.stringify(filteredData), `backup/${newBackupKey}`);
-      getExcalidrawIndexDbFiles(`backup/${newBackupKey}-files`)
+      getExcalidrawIndexDbFiles(`backup/${newBackupKey}-files`);
       console.log("Backup saved:", newBackupKey);
       alert(
         "本地数据已备份远程路径" +
@@ -118,7 +117,7 @@ export const getData = async (
         excalidraw_container = new Set(JSON.parse(excalidraw_container_list));
       }
       excalidraw_container.add(currentDrawkey);
-    //   excalidraw_container.add('default_canvas');
+      //   excalidraw_container.add('default_canvas');
       console.log(typeof excalidraw_container, excalidraw_container);
       currentLocalData.setItem(
         "excalidraw_container_list",
@@ -177,7 +176,7 @@ export const getExcalidrawIndexDbFiles = (filePath: string): void => {
   LocalData.fileStorage
     .getFiles(fileIds)
     .then(({ loadedFiles, erroredFiles }) => {
-    //   console.log(JSON.stringify(loadedFiles));
+      //   console.log(JSON.stringify(loadedFiles));
       fetchData(JSON.stringify(loadedFiles), filePath);
     });
 };
@@ -212,16 +211,13 @@ export const getIndexDbFiles = async (filePath: string) => {
 };
 
 export const initExcalidrawFromCloudData = (): void => {
-  if (
-    window.location.search &&
-    window.location.search.startsWith("?link=")
-  ) {
+  if (window.location.search && window.location.search.startsWith("?link=")) {
     const storgePath = window.location.search.slice(6);
     getData("", true, false);
     getIndexDbFiles(`${storgePath}-files`);
     setTimeout(() => {
-        window.location.href = window.location.origin
-        alert('获取分享链接成功，请切换画布加载最新效果！！')
+      window.location.href = window.location.origin;
+      alert("获取分享链接成功，请切换画布加载最新效果！！");
     }, 1000);
     // window.open(window.location.origin);
   }

@@ -4,7 +4,6 @@ import {
   fetchData,
   getData,
   encodeToBase64,
-  copyToClipboard,
   getExcalidrawIndexDbFiles,
   getIndexDbFiles,
 } from "../data/CloudData";
@@ -26,18 +25,17 @@ export const UploadLocalData = ({ style }: { style?: React.CSSProperties }) => {
     // 获取当前画布名称
     const data = window.localStorage;
     const excalidraw_container_name = data.excalidraw_container_name;
-    if (excalidraw_container_name === 'default_canvas') {
-      alert('默认画布名称：default_canvas禁止分享，请新建一个画布')
-      return
+    if (excalidraw_container_name === "default_canvas") {
+      alert("默认画布名称：default_canvas禁止分享，请新建一个画布");
+      return;
     }
     const uploadPath = `share/${encodeToBase64(excalidraw_container_name)}`;
     const excalidraw_container_data = data[excalidraw_container_name];
     const reqData: { [key: string]: any } = {};
     reqData[excalidraw_container_name] = excalidraw_container_data;
-    console.log(`${window.location.origin}/${uploadPath}`);
-    copyToClipboard(`${window.location.origin}/?link=${uploadPath}`);
     fetchData(JSON.stringify(reqData), uploadPath);
     getExcalidrawIndexDbFiles(`${uploadPath}-files`);
+    alert(`生成分享链接成功：${window.location.origin}/?link=${uploadPath}`);
   };
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
